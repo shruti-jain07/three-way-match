@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 
+import skuMasterRoutes from "./routes/skuMaster.routes.js";
+
 const app = express();
 
 app.use(cors());
@@ -12,5 +14,7 @@ app.get("/health", (req, res) => {
     message: "Server is running",
   });
 });
+
+app.use("/masters/sku", skuMasterRoutes);
 
 export default app;
