@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### project
+Three-Way Match Engine
 
-## Getting Started
+Upload PO / GRN / Invoice documents → Gemini extracts structured data → items resolve against a SKU Master catalogue → a three-way match recomputes live on every read.
+### Tech stack
+Backend: Node/Express/MongoDB + Gemini 
+Frontend: Next.js/Tailwind/TanStack Query 
+Authentication: static Bearer token auth
 
-First, run the development server:
+Run Locally
 
-```bash
+## Backend
+
+cd backend
+.env.example  
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+PORT=5000
+MONGODB_URI=Your-mongodb-string
+AUTH_TOKEN=any-secret-string
+GEMINI_API_KEY=your-gemini-key
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Frontend
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open http://localhost:3000 → log in → upload documents.
 
-## Learn More
+## API
+Method	Path	Auth
+POST	/auth/login
+POST	/documents/upload
+GET	/documents/:id
+GET	/documents/:id/file
+GET	/documents?type=&poNumber=
+GET	/match/:poNumber
+GET	/summary/:poNumber	
+POST/GET/PATCH/DELETE	/masters/sku[/:id]
 
-To learn more about Next.js, take a look at the following resources:
+## swagger
+Swagger JSDoc is on every route file — mount with swagger-jsdoc + swagger-ui-express at /api-docs.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Key Design Decisions
+-Matching key: resolved SkuMaster._id (via skuErpCode → eanCode → aliases, trimmed/case-insensitive). Unresolved items fall back to normalized itemCode and get flagged unmapped_master_sku, never dropped.
+-Live re-resolution: SKU resolution runs again on every GET /match call, not just at upload — so creating a SKU Master after upload still gets picked up without re-uploading.
+-Out-of-order uploads: documents link only by poNumber string (no FK), so any doc type can arrive first. GET /match never caches — always recomputed.
+-Duplicates: stored, never overwritten, flagged (duplicate_po / duplicate_document) — and excluded from quantity/amount totals so they don't inflate the match numbers on top of being flagged.
+-State management: TanStack Query
+-Status hierarchy: insufficient_documents → mismatch (hard violations) → partially_matched (soft warnings / not fully reconciled) → matched.
