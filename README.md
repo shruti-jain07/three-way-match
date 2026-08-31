@@ -45,9 +45,9 @@ Method	Path	Auth
 Swagger JSDoc is on every route file — mount with swagger-jsdoc + swagger-ui-express at /api-docs.
 
 ## Key Design Decisions
--Matching key: resolved SkuMaster._id (via skuErpCode → eanCode → aliases, trimmed/case-insensitive). Unresolved items fall back to normalized itemCode and get flagged unmapped_master_sku, never dropped.
--Live re-resolution: SKU resolution runs again on every GET /match call, not just at upload — so creating a SKU Master after upload still gets picked up without re-uploading.
--Out-of-order uploads: documents link only by poNumber string (no FK), so any doc type can arrive first. GET /match never caches — always recomputed.
--Duplicates: stored, never overwritten, flagged (duplicate_po / duplicate_document) — and excluded from quantity/amount totals so they don't inflate the match numbers on top of being flagged.
--State management: TanStack Query
--Status hierarchy: insufficient_documents → mismatch (hard violations) → partially_matched (soft warnings / not fully reconciled) → matched.
+* Matching key: resolved SkuMaster._id (via skuErpCode → eanCode → aliases, trimmed/case-insensitive). Unresolved items fall back to normalized itemCode and get flagged unmapped_master_sku, never dropped.
+* Live re-resolution: SKU resolution runs again on every GET /match call, not just at upload — so creating a SKU Master after upload still gets picked up without re-uploading.
+* Out-of-order uploads: documents link only by poNumber string (no FK), so any doc type can arrive first. GET /match never caches — always recomputed.
+* Duplicates: stored, never overwritten, flagged (duplicate_po / duplicate_document) — and excluded from quantity/amount totals so they don't inflate the match numbers on top of being flagged.
+* State management: TanStack Query
+* Status hierarchy: insufficient_documents → mismatch (hard violations) → partially_matched (soft warnings / not fully reconciled) → matched.
