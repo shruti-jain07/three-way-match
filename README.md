@@ -38,9 +38,9 @@ Open `http://localhost:3000` → log in → upload documents.
 
 ## API
 
-| Method | Path
-|---|---|---|
-| POST | `/auth/login`| Yes
+| Method | Path |
+|---|---|
+| POST | `/auth/login`
 | POST | `/documents/upload`
 | GET | `/documents/:id`
 | GET | `/documents/:id/file`
