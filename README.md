@@ -40,14 +40,14 @@ Open `http://localhost:3000` → log in → upload documents.
 
 | Method | Path | Auth |
 |---|---|---|
-| POST | `/auth/login` 
-| POST | `/documents/upload`
-| GET | `/documents/:id`
-| GET | `/documents/:id/file`
-| GET | `/documents?type=&poNumber=`
-| GET | `/match/:poNumber`
-| GET | `/summary/:poNumber` 
-| POST/GET/PATCH/DELETE | `/masters/sku[/:id]` 
+| POST | `/auth/login`
+| POST | `/documents/upload` Yes
+| GET | `/documents/:id` Yes
+| GET | `/documents/:id/file` Yes
+| GET | `/documents?type=&poNumber=` Yes
+| GET | `/match/:poNumber` Yes
+| GET | `/summary/:poNumber`  Yes
+| POST/GET/PATCH/DELETE | `/masters/sku[/:id]`  Yes
 
 Swagger JSDoc is on every route file — mount with `swagger-jsdoc` + `swagger-ui-express` at `/api-docs`.
 
