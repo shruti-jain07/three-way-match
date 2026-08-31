@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../swagger.js";
+
 import skuMasterRoutes from "./routes/skuMaster.routes.js";
 import documentRoutes from "./routes/document.routes.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -18,6 +21,9 @@ app.get("/health", (req, res) => {
     message: "Server is running",
   });
 });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use("/auth", authRoutes);
 app.use("/masters/sku", skuMasterRoutes);
 app.use("/documents", documentRoutes);

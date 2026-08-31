@@ -1,0 +1,34 @@
+@import "tailwindcss";
+ 
+@theme inline {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, "SFMono-Regular", monospace;
+ 
+  /* Neutral base */
+  --color-page: #ffffff;
+  --color-panel: #ffffff;
+  --color-ink: #1b2430;
+  --color-ink-muted: #5b6472;
+  --color-border: #dfe3e8;
+  --color-border-strong: #c3c9d1;
+ 
+  /* Primary - deep procurement blue, used for active tabs / primary actions */
+  --color-primary: #2c4a6e;
+  --color-primary-hover: #24405f;
+  --color-primary-soft: #e8edf3;
+ 
+  /* Status - always paired with a text label, never color alone */
+  --color-status-matched: #1e9e64;
+  --color-status-matched-soft: #e5f6ee;
+  --color-status-partial: #c9860a;
+  --color-status-partial-soft: #fbf1de;
+  --color-status-mismatch: #d6455a;
+  --color-status-mismatch-soft: #fbe9ec;
+  --color-status-insufficient: #6b7280;
+  --color-status-insufficient-soft: #eef0f2;
+}
+ 
+body {
+  background-color: var(--color-page);
+  color: var(--color-ink);
+}
