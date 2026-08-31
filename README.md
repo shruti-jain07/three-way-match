@@ -1,4 +1,4 @@
-### project
+### Project
 Three-Way Match Engine
 
 Upload PO / GRN / Invoice documents → Gemini extracts structured data → items resolve against a SKU Master catalogue → a three-way match recomputes live on every read.
