@@ -32,14 +32,14 @@ Open http://localhost:3000 → log in → upload documents.
 
 ## API
 Method	Path	Auth
-POST	/auth/login
-POST	/documents/upload
-GET	/documents/:id
-GET	/documents/:id/file
-GET	/documents?type=&poNumber=
-GET	/match/:poNumber
-GET	/summary/:poNumber	
-POST/GET/PATCH/DELETE	/masters/sku[/:id]
+* POST	/auth/login
+* POST	/documents/upload
+* GET	/documents/:id
+* GET	/documents/:id/file
+* GET	/documents?type=&poNumber=
+* GET	/match/:poNumber
+* GET	/summary/:poNumber	
+* POST/GET/PATCH/DELETE	/masters/sku[/:id]
 
 ## swagger
 Swagger JSDoc is on every route file — mount with swagger-jsdoc + swagger-ui-express at /api-docs.
